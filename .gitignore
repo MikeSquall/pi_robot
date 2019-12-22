@@ -1,0 +1,8 @@
+.cache/
+.idea/
+__pycache__/
+bin/
+dist/
+lib/
+node_modules/
+robot/
