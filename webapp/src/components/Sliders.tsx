@@ -46,45 +46,31 @@ export default () => {
     setGrabberHeight(value as number);
   };
 
+  const renderSlider = (
+    title: string,
+    value: number,
+    onChange: (_: React.ChangeEvent<{}>, value: number | number[]) => void
+  ) => (
+    <Grid item xs={4} sm={4} className={classes.container}>
+      <Typography className={classes.title}>{title}</Typography>
+      <div className={classes.slider}>
+        <Slider orientation="vertical"
+                valueLabelDisplay="on"
+                value={value}
+                min={0}
+                max={100}
+                onChange={onChange}
+        />
+      </div>
+    </Grid>
+  );
+
   return (
     <>
       <Grid container alignItems="center" className={classes.root}>
-        <Grid item xs={4} sm={4} className={classes.container}>
-          <Typography className={classes.title}>Grab</Typography>
-          <div className={classes.slider}>
-            <Slider orientation="vertical"
-              valueLabelDisplay="on"
-              value={grabberGrab}
-              min={0}
-              max={100}
-              onChange={handleGrab}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={4} sm={4} className={classes.container}>
-          <Typography className={classes.title}>Tilt</Typography>
-          <div className={classes.slider}>
-            <Slider orientation="vertical"
-              valueLabelDisplay="on"
-              value={grabberTilt}
-              min={0}
-              max={100}
-              onChange={handleTilt}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={4} sm={4} className={classes.container}>
-          <Typography className={classes.title}>Height</Typography>
-          <div className={classes.slider}>
-            <Slider orientation="vertical"
-              valueLabelDisplay="on"
-              value={grabberHeight}
-              min={0}
-              max={100}
-              onChange={handleHeight}
-            />
-          </div>
-        </Grid>
+        {renderSlider('Grab', grabberGrab, handleGrab)}
+        {renderSlider('Tilt', grabberTilt, handleTilt)}
+        {renderSlider('Height', grabberHeight, handleHeight)}
       </Grid>
     </>
   )
