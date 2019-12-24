@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStyles, Grid, makeStyles} from '@material-ui/core';
 import Moves from './Moves';
+import Sliders from './Sliders';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -19,7 +20,9 @@ export default () => {
         <Grid item xs={12} sm={6}>
           <Moves />
         </Grid>
-        <Grid item xs={12} sm={6}>sliders</Grid>
+        <Grid item xs={12} sm={6}>
+          <Sliders />
+        </Grid>
       </Grid>
     </div>
   )

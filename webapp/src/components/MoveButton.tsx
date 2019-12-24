@@ -25,7 +25,6 @@ export default (props: MoveButtonProps) => {
   const classes = useStyles();
 
   const icon = () => {
-    console.info(`render: ${props.direction}`);
     switch (props.direction) {
       case 'up':
         return <KeyboardArrowUp />;
