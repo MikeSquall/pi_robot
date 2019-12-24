@@ -1,13 +1,26 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import {createStyles, Grid, makeStyles} from '@material-ui/core';
+import Moves from './Moves';
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      height: '100vh',
+    },
+  }),
+);
 
 export default () => {
+  const classes = useStyles();
+
   return (
-    <>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>sliders</Grid>
-        <Grid item xs={12}>moves</Grid>
+    <div>
+      <Grid container className={classes.root}>
+        <Grid item xs={6}>
+          <Moves />
+        </Grid>
+        <Grid item xs={6}>sliders</Grid>
       </Grid>
-    </>
+    </div>
   )
 };
