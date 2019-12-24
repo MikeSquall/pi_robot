@@ -16,10 +16,10 @@ export default () => {
   return (
     <div>
       <Grid container className={classes.root}>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Moves />
         </Grid>
-        <Grid item xs={6}>sliders</Grid>
+        <Grid item xs={12} sm={6}>sliders</Grid>
       </Grid>
     </div>
   )
