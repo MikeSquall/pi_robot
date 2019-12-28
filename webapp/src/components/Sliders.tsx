@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
     slider: {
       height: '30vh',
       [theme.breakpoints.up('sm')]: {
-        height: '70vh',
+        height: '60vh',
       },
     },
     title: {
