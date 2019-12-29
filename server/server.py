@@ -1,56 +1,67 @@
 from flask import Flask
-import robot
+from flask_socketio import SocketIO, emit
+# import robot
 
-robot = robot.MY_ROBOT
+# robot = robot.MY_ROBOT
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 
+@socketio.on('connect')
+def handle_connect():
+    print('connected')
+    emit('connectionStatus', {'data': 'Connected'})
 
-@app.route('/move/forward/')
+
+@socketio.on('disconnect')
+def handle_connect():
+    emit('connectionStatus', {'data': 'Disconnected'})
+
+
+@socketio.on('moveForward')
 def move_forward():
-    robot.forward()
-    return "move_forward"
+    # robot.forward()
+    emit('moveStatus', {'data': 'forward'})
 
 
-@app.route('/move/backward/')
+@socketio.on('moveBackward')
 def move_backward():
-    robot.backward()
-    return "move_backward"
+    # robot.backward()
+    emit('moveStatus', {'data': 'backward'})
 
 
-@app.route('/move/turn/right/')
+@socketio.on('moveTurnRight')
 def move_turn_right():
-    robot.right()
-    return "move_turn_right"
+    # robot.right()
+    emit('moveStatus', {'data': 'turnRight'})
 
 
-@app.route('/move/turn/left/')
+@socketio.on('moveTurnLeft')
 def move_turn_left():
-    robot.left()
-    return "move_turn_left"
+    # robot.left()
+    emit('moveStatus', {'data': 'turnLeft'})
 
 
-@app.route('/stop/')
+@socketio.on('moveStop')
 def stop():
-    robot.stop()
-    return "stop"
+    # robot.stop()
+    emit('moveStatus', {'data': 'stop'})
 
 
-@app.route('/grabber/grab/<opened>')
-def grabber_open(opened):
-    return "grabber_grab: opened ? %s" % opened
+@socketio.on('grabberGrab')
+def grabber_open(angle):
+    emit('grabberGrab', {'data': angle})
 
 
-
-@app.route('/grabber/position/<height>')
+@socketio.on('grabberPosition')
 def grabber_position(height):
-    return "grabber_position: %s" % height
+    emit('grabberPosition', {'data': height})
 
 
-@app.route('/grabber/tilt/<angle>/')
+@socketio.on('grabberTilt')
 def grabber_tilt(angle):
-    return "grabber_tilt: %s" % angle
+    emit('grabberTilt', {'data': angle})
 
 
 if __name__ == "__main__":
-    app.run()
+    socketio.run(app)
