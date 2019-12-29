@@ -19,7 +19,7 @@ export default () => {
   const [socket, setSocket] = React.useState<WebSocket | undefined>(undefined);
 
   const connect = () => {
-    const connection = ws();
+    const connection = ws({ close: () => setConnected(false) });
     if (connection) {
       setSocket(connection);
       setConnected(true);

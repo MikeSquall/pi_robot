@@ -1,4 +1,10 @@
-export const ws = (): WebSocket | undefined => {
+interface wsOptions {
+  open?: () => void;
+  close?: () => void;
+  message?: () => void;
+}
+
+export const ws = (options?: wsOptions): WebSocket | undefined => {
   let socket: WebSocket | undefined;
   try {
     socket = new WebSocket('ws://echo.websocket.org');
@@ -8,11 +14,12 @@ export const ws = (): WebSocket | undefined => {
   }
 
   if (socket) {
-    socket.onclose = () => console.log('close before open');
+    socket.onclose = () => options && options.close && options.close() && console.log('Closed before open.');
     socket.onopen = (event) => {
-      console.info('event ', event.type);
+      console.info(event.type);
       socket!.onclose = () => {
-        console.info('close connection');
+        options && options.close && options.close();
+        console.info('Close connection.');
       };
       socket!.onmessage = (data) => {
         console.info('Message: ', data.data);
