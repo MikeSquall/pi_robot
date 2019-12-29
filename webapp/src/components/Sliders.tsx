@@ -1,6 +1,10 @@
 import React from 'react';
 import {createStyles, Grid, makeStyles, Slider, Theme, Typography} from '@material-ui/core';
 
+interface SlidersProps {
+  ws?: WebSocket;
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -28,21 +32,25 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default () => {
+export default (props: SlidersProps) => {
   const classes = useStyles();
+  const { ws } = props;
   const [grabberGrab, setGrabberGrab] = React.useState<number>(0);
   const [grabberTilt, setGrabberTilt] = React.useState<number>(0);
   const [grabberHeight, setGrabberHeight] = React.useState<number>(0);
 
   const handleGrab = (_: React.ChangeEvent<{}>, value: number | number[]) => {
+    ws && ws.send(`grabberGrab: ${grabberGrab}`);
     setGrabberGrab(value as number);
   };
 
   const handleTilt = (_: React.ChangeEvent<{}>, value: number | number[]) => {
+    ws && ws.send(`grabberTilt: ${grabberTilt}`);
     setGrabberTilt(value as number);
   };
 
   const handleHeight = (_: React.ChangeEvent<{}>, value: number | number[]) => {
+    ws && ws.send(`grabberHeight: ${grabberHeight}`);
     setGrabberHeight(value as number);
   };
 

@@ -2,6 +2,10 @@ import React from 'react';
 import { createStyles, Grid, makeStyles, Theme } from '@material-ui/core';
 import MoveButton from './MoveButton';
 
+interface MovesProps {
+  ws?: WebSocket;
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -25,11 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default () => {
+export default (props: MovesProps) => {
   const classes = useStyles();
+  const { ws } = props;
 
-  const handlePressDirection = (direction: string) => () => console.log(`button pressed: ${direction}`);
-  const handleReleaseDirection = (direction: string) => () => console.log(`button released: ${direction}`);
+  const handlePressDirection = (direction: string) => () => ws && ws.send(`button pressed: ${direction}`);
+  const handleReleaseDirection = (direction: string) => () => ws && ws.send(`button released: ${direction}`);
 
   return (
     <>
