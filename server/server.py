@@ -1,56 +1,14 @@
-from flask import Flask
-import robot
+import asyncio
+import websockets
+# import robot
 
-robot = robot.MY_ROBOT
-app = Flask(__name__)
-
-
-
-@app.route('/move/forward/')
-def move_forward():
-    robot.forward()
-    return "move_forward"
+# robot = robot.MY_ROBOT
 
 
-@app.route('/move/backward/')
-def move_backward():
-    robot.backward()
-    return "move_backward"
+async def robot_commands(websocket, path):
 
 
-@app.route('/move/turn/right/')
-def move_turn_right():
-    robot.right()
-    return "move_turn_right"
+start_server = websockets.serve(robot_commands, "localhost", 5000)
 
-
-@app.route('/move/turn/left/')
-def move_turn_left():
-    robot.left()
-    return "move_turn_left"
-
-
-@app.route('/stop/')
-def stop():
-    robot.stop()
-    return "stop"
-
-
-@app.route('/grabber/grab/<opened>')
-def grabber_open(opened):
-    return "grabber_grab: opened ? %s" % opened
-
-
-
-@app.route('/grabber/position/<height>')
-def grabber_position(height):
-    return "grabber_position: %s" % height
-
-
-@app.route('/grabber/tilt/<angle>/')
-def grabber_tilt(angle):
-    return "grabber_tilt: %s" % angle
-
-
-if __name__ == "__main__":
-    app.run()
+asyncio.get_event_loop().run_until_complete(start_server)
+asyncio.get_event_loop().run_forever()

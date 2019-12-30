@@ -1,2 +1,3 @@
-Flask
 gpiozero
+asyncio
+websockets
