@@ -33,8 +33,9 @@ export default (props: MovesProps) => {
   const classes = useStyles();
   const { ws } = props;
 
-  const handlePressDirection = (direction: string) => () => ws && ws.send(`button pressed: ${direction}`);
-  const handleReleaseDirection = (direction: string) => () => ws && ws.send(`button released: ${direction}`);
+  // @ts-ignore
+  const handlePressDirection = (direction: string) => () => ws && ws.send(JSON.stringify({ command: direction }));
+  const handleReleaseDirection = () => () => ws && ws.send(JSON.stringify({ command: 'stop' }));
 
   return (
     <>
@@ -42,21 +43,21 @@ export default (props: MovesProps) => {
         <Grid item sm={12} xs={12} className={classes.blankBtnLine}/>
         <Grid item sm={5} xs={5}/>
         <Grid item sm={2} xs={2}>
-          <MoveButton direction="up" onPress={handlePressDirection} onReleased={handleReleaseDirection}/>
+          <MoveButton direction="moveForward" onPress={handlePressDirection} onReleased={handleReleaseDirection}/>
         </Grid>
         <Grid item sm={5} xs={5}/>
         <Grid item sm={3} xs={2}/>
         <Grid item sm={2} xs={3} className={classes.xsCenteredBtn}>
-          <MoveButton direction="left" onPress={handlePressDirection} onReleased={handleReleaseDirection}/>
+          <MoveButton direction="turnLeft" onPress={handlePressDirection} onReleased={handleReleaseDirection}/>
         </Grid>
         <Grid item sm={2} xs={2}/>
         <Grid item sm={2} xs={3} className={classes.xsCenteredBtn}>
-          <MoveButton direction="right" onPress={handlePressDirection} onReleased={handleReleaseDirection}/>
+          <MoveButton direction="turnRight" onPress={handlePressDirection} onReleased={handleReleaseDirection}/>
         </Grid>
         <Grid item sm={3} xs={2}/>
         <Grid item sm={5} xs={5}/>
         <Grid item sm={2} xs={2}>
-          <MoveButton direction="down" onPress={handlePressDirection} onReleased={handleReleaseDirection}/>
+          <MoveButton direction="moveBackward" onPress={handlePressDirection} onReleased={handleReleaseDirection}/>
         </Grid>
         <Grid item sm={5} xs={5}/>
         <Grid item sm={12} xs={12} className={classes.blankBtnLine}/>

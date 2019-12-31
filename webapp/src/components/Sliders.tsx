@@ -1,5 +1,6 @@
 import React from 'react';
 import {createStyles, Grid, makeStyles, Slider, Theme, Typography} from '@material-ui/core';
+import {actions} from '../utils/constants';
 
 interface SlidersProps {
   ws?: WebSocket;
@@ -40,17 +41,17 @@ export default (props: SlidersProps) => {
   const [grabberHeight, setGrabberHeight] = React.useState<number>(0);
 
   const handleGrab = (_: React.ChangeEvent<{}>, value: number | number[]) => {
-    ws && ws.send(`grabberGrab: ${grabberGrab}`);
+    ws && ws.send(JSON.stringify({ command: 'grabberGrab', value }));
     setGrabberGrab(value as number);
   };
 
   const handleTilt = (_: React.ChangeEvent<{}>, value: number | number[]) => {
-    ws && ws.send(`grabberTilt: ${grabberTilt}`);
+    ws && ws.send(JSON.stringify({ command: 'grabberTilt', value }));
     setGrabberTilt(value as number);
   };
 
   const handleHeight = (_: React.ChangeEvent<{}>, value: number | number[]) => {
-    ws && ws.send(`grabberHeight: ${grabberHeight}`);
+    ws && ws.send(JSON.stringify({ command: 'grabberHeight', value }));
     setGrabberHeight(value as number);
   };
 

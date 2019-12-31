@@ -1,3 +1,5 @@
+import env from '../env';
+
 interface wsOptions {
   open?: () => void;
   close?: () => void;
@@ -7,7 +9,7 @@ interface wsOptions {
 export const ws = (options?: wsOptions): WebSocket | undefined => {
   let socket: WebSocket | undefined;
   try {
-    socket = new WebSocket('ws://echo.websocket.org');
+    socket = new WebSocket(`ws://${env.SERVER_HOST}:${env.SERVER_PORT}`);
   }
   catch (e) {
     socket = undefined;

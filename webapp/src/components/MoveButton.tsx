@@ -8,7 +8,7 @@ import {
 } from '@material-ui/icons/';
 
 interface MoveButtonProps {
-  direction: 'up' | 'down' | 'left' | 'right';
+  direction: 'moveForward' | 'moveBackward' | 'turnLeft' | 'turnRight';
   onPress: (direction: string) => (event: React.PointerEvent) => void;
   onReleased: (direction: string) => (event: React.PointerEvent) => void;
 }
@@ -26,13 +26,13 @@ export default (props: MoveButtonProps) => {
 
   const icon = () => {
     switch (props.direction) {
-      case 'up':
+      case 'moveForward':
         return <KeyboardArrowUp />;
-      case 'down':
+      case 'moveBackward':
         return <KeyboardArrowDown />;
-      case 'left':
+      case 'turnLeft':
         return <KeyboardArrowLeft />;
-      case 'right':
+      case 'turnRight':
         return <KeyboardArrowRight />;
     }
   };

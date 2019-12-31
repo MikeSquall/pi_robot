@@ -1,56 +1,53 @@
-from flask import Flask
-import robot
+import sys
+import asyncio
+import websockets
+import json
+from ast import literal_eval
+# import robot
 
-robot = robot.MY_ROBOT
-app = Flask(__name__)
+# robot = robot.MY_ROBOT
 
+if sys.argv and len(sys.argv) == 3:
+    host = sys.argv[1]
+    port = sys.argv[2]
+    print('Running server on ' + str(host) + ':' + str(port))
+else:
+    sys.exit('Please provide host and port')
 
+async def handle_command(websocket, path):
+    while True:
+        message = await websocket.recv()
 
-@app.route('/move/forward/')
-def move_forward():
-    robot.forward()
-    return "move_forward"
+        message = literal_eval(message)
+        print(message)
 
+        if message['command'] == 'moveForward':
+            # robot.forward()
+            answer = {'action': 'moveForward'}
+        elif message['command'] == 'moveBackward':
+            # robot.backward()
+            answer = {'action': 'moveBackward'}
+        elif message['command'] == 'turnRight':
+            # robot.right()
+            answer = {'action': 'turnRight'}
+        elif message['command'] == 'turnLeft':
+            # robot.left()
+            answer = {'action': 'turnLeft'}
+        elif message['command'] == 'stop':
+            # robot.stop()
+            answer = {'action': 'stop'}
+        elif message['command'] == 'grabberGrab':
+            # grabber action grab
+            answer = {'action': 'grabberGrab', 'value': message['value']}
+        elif message['command'] == 'grabberTilt':
+            # grabber action tilt
+            answer = {'action': 'grabberTilt', 'value': message['value']}
+        elif message['command'] == 'grabberHeight':
+            # grabber action height
+            answer = {'action': 'grabberHeight', 'value': message['value']}
+        await websocket.send(json.dumps(answer))
 
-@app.route('/move/backward/')
-def move_backward():
-    robot.backward()
-    return "move_backward"
+start_server = websockets.serve(handle_command, host, port)
 
-
-@app.route('/move/turn/right/')
-def move_turn_right():
-    robot.right()
-    return "move_turn_right"
-
-
-@app.route('/move/turn/left/')
-def move_turn_left():
-    robot.left()
-    return "move_turn_left"
-
-
-@app.route('/stop/')
-def stop():
-    robot.stop()
-    return "stop"
-
-
-@app.route('/grabber/grab/<opened>')
-def grabber_open(opened):
-    return "grabber_grab: opened ? %s" % opened
-
-
-
-@app.route('/grabber/position/<height>')
-def grabber_position(height):
-    return "grabber_position: %s" % height
-
-
-@app.route('/grabber/tilt/<angle>/')
-def grabber_tilt(angle):
-    return "grabber_tilt: %s" % angle
-
-
-if __name__ == "__main__":
-    app.run()
+asyncio.get_event_loop().run_until_complete(start_server)
+asyncio.get_event_loop().run_forever()
