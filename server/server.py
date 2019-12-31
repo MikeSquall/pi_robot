@@ -1,3 +1,4 @@
+import sys
 import asyncio
 import websockets
 import json
@@ -6,12 +7,19 @@ from ast import literal_eval
 
 # robot = robot.MY_ROBOT
 
+if sys.argv and len(sys.argv) == 3:
+    host = sys.argv[1]
+    port = sys.argv[2]
+    print('Running server on ' + str(host) + ':' + str(port))
+else:
+    sys.exit('Please provide host and port')
 
 async def handle_command(websocket, path):
     while True:
         message = await websocket.recv()
 
         message = literal_eval(message)
+        print(message)
 
         if message['command'] == 'moveForward':
             # robot.forward()
@@ -39,7 +47,7 @@ async def handle_command(websocket, path):
             answer = {'action': 'grabberHeight', 'value': message['value']}
         await websocket.send(json.dumps(answer))
 
-start_server = websockets.serve(handle_command, "localhost", 5000)
+start_server = websockets.serve(handle_command, host, port)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
