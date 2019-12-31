@@ -1,6 +1,7 @@
 import asyncio
 import websockets
 import json
+from ast import literal_eval
 # import robot
 
 # robot = robot.MY_ROBOT
@@ -8,10 +9,10 @@ import json
 
 async def handle_command(websocket, path):
     while True:
-        try:
-            message = json.loads(await websocket.recv())
-        except websockets.ConnectionClosed:
-            pass
+        message = await websocket.recv()
+
+        message = literal_eval(message)
+        print(message['command'], ' // ', message['value'])
 
         if message['command'] == 'moveForward':
             # robot.forward()
@@ -37,7 +38,7 @@ async def handle_command(websocket, path):
         elif message['command'] == 'grabberHeight':
             # grabber action height
             answer = {'action': 'grabberHeight', 'value': message['value']}
-        await websocket.send(answer)
+        await websocket.send(json.dumps(answer))
 
 start_server = websockets.serve(handle_command, "localhost", 5000)
 
