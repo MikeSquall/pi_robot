@@ -12,7 +12,6 @@ async def handle_command(websocket, path):
         message = await websocket.recv()
 
         message = literal_eval(message)
-        print(message['command'], ' // ', message['value'])
 
         if message['command'] == 'moveForward':
             # robot.forward()

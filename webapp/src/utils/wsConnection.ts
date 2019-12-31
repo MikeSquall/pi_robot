@@ -7,7 +7,8 @@ interface wsOptions {
 export const ws = (options?: wsOptions): WebSocket | undefined => {
   let socket: WebSocket | undefined;
   try {
-    socket = new WebSocket('ws://echo.websocket.org');
+    // socket = new WebSocket('ws://echo.websocket.org');
+    socket = new WebSocket('ws://127.0.0.1:5000');
   }
   catch (e) {
     socket = undefined;
