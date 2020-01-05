@@ -3,9 +3,9 @@ import asyncio
 import websockets
 import json
 from ast import literal_eval
-# import robot
+import robot
 
-# robot = robot.MY_ROBOT
+robot = robot.MY_ROBOT
 
 if sys.argv and len(sys.argv) == 3:
     host = sys.argv[1]
@@ -22,16 +22,16 @@ async def handle_command(websocket, path):
         print(message)
 
         if message['command'] == 'moveForward':
-            # robot.forward()
+            robot.forward()
             answer = {'action': 'moveForward'}
         elif message['command'] == 'moveBackward':
-            # robot.backward()
+            robot.backward()
             answer = {'action': 'moveBackward'}
         elif message['command'] == 'turnRight':
-            # robot.right()
+            robot.right()
             answer = {'action': 'turnRight'}
         elif message['command'] == 'turnLeft':
-            # robot.left()
+            robot.left()
             answer = {'action': 'turnLeft'}
         elif message['command'] == 'stop':
             # robot.stop()
