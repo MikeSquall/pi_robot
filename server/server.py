@@ -5,8 +5,10 @@ import json
 from ast import literal_eval
 import robot
 
+# Init robot
 robot = robot.MY_ROBOT
 
+# Check host & port
 if sys.argv and len(sys.argv) == 3:
     host = sys.argv[1]
     port = sys.argv[2]
@@ -14,6 +16,10 @@ if sys.argv and len(sys.argv) == 3:
 else:
     sys.exit('Please provide host and port')
 
+# Stop the robot to prevent automatic start from gpiozero
+robot.stop()
+
+# Handle command received through websocket
 async def handle_command(websocket, path):
     while True:
         message = await websocket.recv()
@@ -34,7 +40,7 @@ async def handle_command(websocket, path):
             robot.left()
             answer = {'action': 'turnLeft'}
         elif message['command'] == 'stop':
-            # robot.stop()
+            robot.stop()
             answer = {'action': 'stop'}
         elif message['command'] == 'grabberGrab':
             # grabber action grab
@@ -47,6 +53,7 @@ async def handle_command(websocket, path):
             answer = {'action': 'grabberHeight', 'value': message['value']}
         await websocket.send(json.dumps(answer))
 
+# Start the server
 start_server = websockets.serve(handle_command, host, port)
 
 asyncio.get_event_loop().run_until_complete(start_server)
