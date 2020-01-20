@@ -1,11 +1,12 @@
 import React from 'react';
 import {createStyles, Grid, IconButton, makeStyles, Theme} from '@material-ui/core';
 import {red, green} from '@material-ui/core/colors/';
-import {PowerSettingsNew} from '@material-ui/icons';
+import {Create, PowerSettingsNew} from '@material-ui/icons';
 
 interface ConnectionProps {
   connected: boolean;
   onClick: () => void;
+  openModal: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,6 +40,9 @@ export default (props: ConnectionProps) => {
                       onClick={props.onClick}
           >
             <PowerSettingsNew />
+          </IconButton>
+          <IconButton onClick={props.openModal} className={classes.button}>
+            <Create />
           </IconButton>
         </Grid>
       </Grid>

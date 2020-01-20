@@ -1,6 +1,5 @@
 import React from 'react';
 import {createStyles, Grid, makeStyles, Slider, Theme, Typography} from '@material-ui/core';
-import {actions} from '../utils/constants';
 
 interface SlidersProps {
   ws?: WebSocket;
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     slider: {
       height: '30vh',
       [theme.breakpoints.up('sm')]: {
-        height: '60vh',
+        height: '50vh',
       },
     },
     title: {

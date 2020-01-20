@@ -10,6 +10,9 @@ export default createMuiTheme({
       default: darkGrey,
       paper: lightGrey,
     },
+    secondary: {
+      main: '#df0101',
+    },
   },
   overrides: {
     MuiSlider: {

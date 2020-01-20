@@ -1,15 +1,14 @@
-import env from '../env';
-
 interface wsOptions {
   open?: () => void;
   close?: () => void;
   message?: () => void;
+  serverUrl: string;
 }
 
-export const ws = (options?: wsOptions): WebSocket | undefined => {
+export const ws = (options: wsOptions): WebSocket | undefined => {
   let socket: WebSocket | undefined;
   try {
-    socket = new WebSocket(`ws://${env.SERVER_HOST}:${env.SERVER_PORT}`);
+    socket = new WebSocket(options.serverUrl);
   }
   catch (e) {
     socket = undefined;
